@@ -17,6 +17,7 @@ class CriarConta:
         if st.button("Criar Conta"):
             if criar_conta(nomeDeUsuario,senha):
                 st.success("Conta criada com sucesso!")
+                st.session_state["usuario_logado"] = True
                 # adicionar redirecionamento de pagina aqui
             else:
                 st.error("Esse nome de usuário já existe.")

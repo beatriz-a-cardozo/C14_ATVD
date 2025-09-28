@@ -17,8 +17,8 @@ class Login:
         if st.button("Login"):
             if login(nomeDeUsuario,senha):
                 st.success("Logado com sucesso")
-                st.session_state["user"] = nomeDeUsuario
-                # adicionar redirecionamento de pagina aqui
+                st.session_state["usuario_logado"] = True
+                st.switch_page("pages/HomePage.py")
             else:
                 st.error("Usuário ou senha incorretos.")
 
