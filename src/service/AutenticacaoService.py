@@ -4,6 +4,7 @@ from pathlib import Path
 from src.models.Usuario import Usuario
 
 arquivo = Path("src/data/usuarios.json")
+usuarioAtual = None
 
 # ==================================================== CRIAR CONTA ====================================================
 def criar_conta(nomeDeUsuario: str, senha: str) -> bool:
@@ -16,7 +17,10 @@ def criar_conta(nomeDeUsuario: str, senha: str) -> bool:
     novoUsuario = Usuario(nomeDeUsuario, hashlib.sha256(senha.encode()).hexdigest())
 
     usuarios[nomeDeUsuario] = novoUsuario
-    salvar_usuario(usuarios)
+    salvar_usuario(usuarios) # salva o usuário no json
+
+    global usuarioAtual
+    usuarioAtual = novoUsuario # define o usuario atual no contexto da sessão
 
     return True
 
@@ -28,7 +32,13 @@ def login(nomeDeUsuario: str, senha: str) -> bool:
     if nomeDeUsuario not in usuarios:
         return False
 
-    return hashlib.sha256(senha.encode()).hexdigest() == usuarios[nomeDeUsuario].senhaHash
+    if hashlib.sha256(senha.encode()).hexdigest() == usuarios[nomeDeUsuario].senhaHash:
+        global usuarioAtual
+        usuarioAtual = usuarios[nomeDeUsuario]
+
+        return True
+
+    return False
 
 # ================================================ MÉTODOS AUXILIARES =================================================
 def checar_usarios(): # retorna um dicionario com todos os usuarios
@@ -51,4 +61,7 @@ def salvar_usuario(usuarios: dict[str,Usuario]): # salca o usuario criado no dic
 
     with open(arquivo,"w") as arq:
         json.dump(serial,arq,indent=4)
+
+def get_usuario_atual():
+    return usuarioAtual
 
