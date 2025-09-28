@@ -1,10 +1,11 @@
 from datetime import date
 from pathlib import Path
 import json
+from src.service.AutenticacaoService import get_usuario_atual
 
 class gasto:
-    def __init__(self, descricao: str, data: date, categoria: str, metodo: str, valor: float):
-        self.descricao = descricao
+    def __init__(self, gasto: str, data: date, categoria: str, metodo: str, valor: float):
+        self.gasto = gasto
         self.data = data
         self.categoria = categoria
         self.metodo = metodo
@@ -17,8 +18,6 @@ class gasto:
     @staticmethod
     def adicionar_receita(origem: str, valor: float, data: str):
         #Adiciona uma nova receita para o usuário atual
-        from src.service.AutenticacaoService import get_usuario_atual
-
         usuario_atual = get_usuario_atual()
         arquivo_usuarios = Path("src/data/usuarios.json")
 
