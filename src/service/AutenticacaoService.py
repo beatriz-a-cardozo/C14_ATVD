@@ -25,7 +25,7 @@ def login(nomeDeUsuario: str, senha: str) -> bool:
 
     usuarios = checar_usarios()
 
-    if nomeDeUsuario in usuarios:
+    if nomeDeUsuario not in usuarios:
         return False
 
     return hashlib.sha256(senha.encode()).hexdigest() == usuarios[nomeDeUsuario].senhaHash
