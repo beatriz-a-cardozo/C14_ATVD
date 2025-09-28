@@ -8,4 +8,4 @@ class gasto_fixo(gasto):
         self.periodo = periodo  #Período em dias do gato fixo
 
     def __str__(self):
-        return f"GastoFixo: {self.descricao} - R${self.valor:.2f} - {self.data} - Recorrência: {self.periodo} dias"
+        return f"Gasto fixo: {self.descricao} - R${self.valor:.2f} - {self.data} - Recorrência: {self.periodo} dias"
