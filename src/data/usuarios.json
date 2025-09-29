@@ -2,10 +2,49 @@
     "beatriz": {
         "nome_de_usuario": "beatriz",
         "senha_hash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
-        "saldo": 3880.0,
-        "gasto_fixo": [],
-        "gasto_do_mes": [],
-        "fatura": [],
+        "saldo": 1180.0,
+        "gasto_fixo": [
+            {
+                "gasto": "teste",
+                "categoria": "Alimentacao",
+                "metodo": "Debito",
+                "valor": 1000.0,
+                "data": "28/09/2025",
+                "periodo": 1
+            },
+            {
+                "gasto": "teste1",
+                "categoria": "Saude",
+                "metodo": "Debito",
+                "valor": 500.0,
+                "data": "28/09/2025",
+                "periodo": 1
+            },
+            {
+                "gasto": "600",
+                "categoria": "Alimentacao",
+                "metodo": "Credito",
+                "valor": 500.0,
+                "data": "28/09/2025",
+                "periodo": 1
+            }
+        ],
+        "gasto_do_mes": [
+            {
+                "gasto": "testekdfhnldk\u00e7fhjd",
+                "categoria": "Saude",
+                "metodo": "Debito",
+                "valor": 700.0,
+                "data": "28/09/2025"
+            }
+        ],
+        "fatura": [
+            {
+                "gasto": "Nubank",
+                "valor": 500.0,
+                "data": "28/09/2025"
+            }
+        ],
         "receitas": [
             {
                 "origem": "LEVTY",

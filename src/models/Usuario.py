@@ -220,7 +220,32 @@ class Usuario:
 
     # ===================================================== GASTOS =====================================================
     def adicionar_gasto_fixo(self,gasto, categoria, metodo, valor, data, periodo):
-        pass
+        arq = Path("src/data/usuarios.json")
+
+        with open(arq, "r") as f:
+            usuariosInfo = json.load(f)
+
+        novoGasto = {
+            "gasto": gasto,
+            "categoria": categoria,
+            "metodo": metodo,
+            "valor": valor,
+            "data": data,
+            "periodo": periodo
+        }
+
+        usuariosInfo[self.nomeDeUsuario]["gasto_fixo"].append(novoGasto)
+        if metodo != "Credito":
+            usuariosInfo[self.nomeDeUsuario]["saldo"] -= valor
+            self.gastoDoMes.append(novoGasto)
+            self.saldo -= valor
+        else:
+            pass
+
+        with open(arq, "w") as f:
+            json.dump(usuariosInfo, f, indent=4)
+
+        return True
 
     def mostrar_gastos_fixo(self):
 
@@ -299,7 +324,31 @@ class Usuario:
                     st.error("Preencha todos os campos obrigatórios")
 
     def adicionar_gasto_do_mes(self, gasto, categoria, metodo, valor, data):
-        pass
+        arq = Path("src/data/usuarios.json")
+
+        with open(arq, "r") as f:
+            usuariosInfo = json.load(f)
+
+        novoGasto = {
+            "gasto": gasto,
+            "categoria": categoria,
+            "metodo": metodo,
+            "valor": valor,
+            "data": data
+        }
+
+        usuariosInfo[self.nomeDeUsuario]["gasto_do_mes"].append(novoGasto)
+        if metodo != "Credito":
+            usuariosInfo[self.nomeDeUsuario]["saldo"] -= valor
+            self.gastoFixo.append(novoGasto)
+            self.saldo -= valor
+        else:
+            pass
+
+        with open(arq, "w") as f:
+            json.dump(usuariosInfo, f, indent=4)
+
+        return True
 
     def mostrar_gastos_do_mes(self):
 
@@ -362,7 +411,7 @@ class Usuario:
 
             if enviado:
                 if gasto and data and categoria and metodo and valor > 0:
-                    if self.adicionar_gasto_fixo(gasto, categoria, metodo, valor, data.strftime("%d/%m/%Y")):
+                    if self.adicionar_gasto_do_mes(gasto, categoria, metodo, valor, data.strftime("%d/%m/%Y")):
                         st.success("Gasto do mês adicionado com sucesso!")
                         st.rerun()
                     else:
@@ -371,7 +420,27 @@ class Usuario:
                     st.error("Preencha todos os campos obrigatórios")
 
     def adicionar_fatura(self, gasto, valor, data):
-        pass
+
+        arq = Path("src/data/usuarios.json")
+
+        with open(arq, "r") as f:
+            usuariosInfo = json.load(f)
+
+        novaFatura= {
+            "gasto": gasto,
+            "valor": valor,
+            "data": data
+        }
+
+        usuariosInfo[self.nomeDeUsuario]["fatura"].append(novaFatura)
+        usuariosInfo[self.nomeDeUsuario]["saldo"] -= valor
+        self.fatura.append(novaFatura)
+        self.saldo -= valor
+
+        with open(arq, "w") as f:
+            json.dump(usuariosInfo, f, indent=4)
+
+        return True
 
     def mostrar_faturas(self):
 
@@ -422,12 +491,10 @@ class Usuario:
 
             if enviado:
                 if gasto and data and valor > 0:
-                    if self.adicionar_gasto_fixo(gasto, valor, data.strftime("%d/%m/%Y")):
+                    if self.adicionar_fatura(gasto, valor, data.strftime("%d/%m/%Y")):
                         st.success("Fatura adicionado com sucesso!")
                         st.rerun()
                     else:
                         st.error("Erro ao adicionar fatura.")
                 else:
                     st.error("Preencha todos os campos obrigatórios")
-
-
