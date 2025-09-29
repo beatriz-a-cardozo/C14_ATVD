@@ -1,18 +1,28 @@
-from Gasto import gasto
+from Gasto import Gasto
 from datetime import date
 
-class gasto_do_mes(gasto):
-    def __init__(self, descricao: str, data: date, categoria: str, metodo: str, valor: float):
-        super().__init__(descricao, data, categoria, metodo, valor)
+class GastoDoMes(Gasto):
+    def __init__(self, gasto: str, data: date, categoria: str, metodo: str, valor: float, periodo: int):
+        super().__init__(gasto, data, categoria, metodo, valor)
+        self.periodo = periodo
 
-    def __str__(self):
-        return f"Gasto do mês: {self.descricao} - R${self.valor:.2f} - {self.data} - {self.categoria} - {self.metodo}"
+    def para_dicionario(self):
+        return {
+            "gasto": self.gasto,
+            "data": self.data.isoformat(),
+            "categoria": self.categoria,
+            "metodo": self.metodo,
+            "valor": self.valor,
+            "periodo": self.periodo
+        }
 
-    def get_mes_ano(self):
-        #Retorna o mês e ano do gasto no formato 'MM/YYYY'
-        return self.data.strftime("%m/%Y")
-
-    def is_gasto_do_mes_corrente(self):
-        #Verifica se o gasto é do mês atual
-        hoje = date.today()
-        return self.data.month == hoje.month and self.data.year == hoje.year
+    @classmethod
+    def de_dicionario(cls, data):
+        return cls(
+            data["gasto"],
+            date.fromisoformat(data["data"]),
+            data["categoria"],
+            data["metodo"],
+            data["valor"],
+            data["periodo"]
+        )
