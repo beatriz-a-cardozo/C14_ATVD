@@ -1,6 +1,8 @@
 from datetime import datetime
 import streamlit as st
 import pandas as pd
+from pathlib import Path
+import json
 
 class Usuario:
 
@@ -19,9 +21,9 @@ class Usuario:
             "nome_de_usuario": self.nomeDeUsuario,
             "senha_hash": self.senhaHash,
             "saldo": self.saldo,
-            "gasto_fixo": self.gastos,
+            "gasto_fixo": self.gastoFixo,
             "gasto_do_mes": self.gastoDoMes,
-
+            "fatura": self.fatura,
             "receitas": self.receitas
         }
 
@@ -31,7 +33,9 @@ class Usuario:
 
         usuario.saldo = data["saldo"]
         usuario.receitas = data.get("receitas",[])
-        usuario.gastos = data.get("gastos",[])
+        usuario.gastoFixo = data.get("gasto_fixo",[])
+        usuario.gastoDoMes = data.get("gasto_do_mes", [])
+        usuario.fatura = data.get("fatura", [])
 
         return usuario
 
@@ -132,7 +136,27 @@ class Usuario:
 
     # ===================================================== RECEITA ====================================================
     def adicionar_receita(self,origem,valor,data):
-        pass
+        arq = Path("src/data/usuarios.json")
+
+        with open(arq, "r") as f:
+            usuariosInfo = json.load(f)
+
+        novaReceita = {
+            "origem": origem,
+            "valor": valor,
+            "data": data
+        }
+
+        usuariosInfo[self.nomeDeUsuario]["receitas"].append(novaReceita)
+        usuariosInfo[self.nomeDeUsuario]["saldo"] += valor
+
+        self.receitas.append(novaReceita)
+        self.saldo += valor
+
+        with open(arq, "w") as f:
+            json.dump(usuariosInfo, f, indent=4)
+
+        return True
 
     def mostrar_receitas(self):
 
@@ -190,6 +214,9 @@ class Usuario:
                         st.error("Erro ao adicionar a receita.")
                 else:
                     st.error("Preencha todos os campos obrigatórios")
+
+    def get_total_receitas(self):
+        return sum(receita["valor"] for receita in self.receitas)
 
     # ===================================================== GASTOS =====================================================
     def adicionar_gasto_fixo(self,gasto, categoria, metodo, valor, data, periodo):

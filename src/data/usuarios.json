@@ -2,8 +2,31 @@
     "beatriz": {
         "nome_de_usuario": "beatriz",
         "senha_hash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
-        "saldo": 0,
-        "gastos": [],
-        "receitas": []
+        "saldo": 3880.0,
+        "gasto_fixo": [],
+        "gasto_do_mes": [],
+        "fatura": [],
+        "receitas": [
+            {
+                "origem": "LEVTY",
+                "valor": 1500.0,
+                "data": "28/09/2025"
+            },
+            {
+                "origem": "Auxilio",
+                "valor": 1100.0,
+                "data": "28/09/2025"
+            },
+            {
+                "origem": "Vale alimenta\u00e7\u00e3o",
+                "valor": 580.0,
+                "data": "28/09/2025"
+            },
+            {
+                "origem": "Monitoria",
+                "valor": 700.0,
+                "data": "28/09/2025"
+            }
+        ]
     }
 }

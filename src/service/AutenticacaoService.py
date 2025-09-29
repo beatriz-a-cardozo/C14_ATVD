@@ -43,15 +43,21 @@ def login(nomeDeUsuario: str, senha: str) -> bool:
 # ================================================ MÉTODOS AUXILIARES =================================================
 def checar_usarios(): # retorna um dicionario com todos os usuarios
 
-    if arquivo.exists():
-        with open(arquivo,"r") as arq:
+    if not arquivo.exists():
+        with open(arquivo, "w") as arq:
+            json.dump({}, arq, indent=4)
+        return {}
+
+    try:
+        with open(arquivo, "r") as arq:
             raw = json.load(arq)
-
-        return {
-            user: Usuario.de_dicionario(data) for user,data in raw.items()
-        }
-
-    return {}
+            return {
+                user: Usuario.de_dicionario(data) for user, data in raw.items()
+            }
+    except json.JSONDecodeError:
+        with open(arquivo, "w") as arq:
+            json.dump({}, arq, indent=4)
+        return {}
 
 def salvar_usuario(usuarios: dict[str,Usuario]): # salca o usuario criado no dicionario e transforma em json
 
