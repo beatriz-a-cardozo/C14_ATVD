@@ -60,6 +60,8 @@ jobs:
         python -m py_compile main.py
 
   test:
+    needs: build
+
     runs-on: ubuntu-latest
 
     strategy:
@@ -81,12 +83,16 @@ jobs:
 
       - name: Run tests with pytest
         run: |
-          python -m pytest tests/ -v
+          python -m pytest tests/ -v --html=report.html --self-contained-html
 
+      - name: Upload Test Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: report-testes  
 
   notification:
 
-    needs: test
+    needs: build
 
     runs-on: ubuntu-latest
     environment: ambiente

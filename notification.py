@@ -12,7 +12,7 @@ msg = EmailMessage()
 msg["From"] = smtp_user
 msg["To"] = mail_to
 msg["Subject"] = "Mensagem do pipeline"
-msg.set_content("O pipeline executado com sucesso!")
+msg.set_content("O build foi executado com sucesso!")
 
 context = ssl.create_default_context()
 with smtplib.SMTP("smtp.gmail.com", 587) as server:
