@@ -59,14 +59,12 @@ class Usuario:
 
         diasRestantes = mes - hoje.day
 
-        return int(self.saldo / diasRestantes)
+        return int(self.saldo / diasRestantes) if diasRestantes > 0 else self.saldo
 
     def gerar_relatorio(self,mesAtual) -> None:
         pass
 
     # ====================================================== SALDO =====================================================
-    def calcular_saldo(self) -> float:
-        pass
 
     def mostrar_saldo(self):
         st.markdown("""
