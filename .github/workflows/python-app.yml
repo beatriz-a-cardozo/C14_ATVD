@@ -88,7 +88,8 @@ jobs:
       - name: Upload Test Report
         uses: actions/upload-artifact@v4
         with:
-          name: report-testes  
+          name: report-testes
+          path: report.html  
 
   notification:
 
